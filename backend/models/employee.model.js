@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize';
-import db from '../db.js';
+import db from '../database/connection.js';
 
 const Employee = db.define('Employee', {
 
@@ -10,6 +10,11 @@ const Employee = db.define('Employee', {
     lastName: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    isAdmin: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
     }
   });
 

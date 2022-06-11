@@ -1,6 +1,5 @@
 import { DataTypes } from 'sequelize';
-import db from '../db.js';
-import Car from './car.model.js';
+import db from '../database/connection.js';
 
 const Client = db.define('Client', {
 
@@ -30,21 +29,12 @@ const Client = db.define('Client', {
       },
     contactNumber: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: true
       },
     emailAddress: {
         type: DataTypes.STRING,
         allowNull: false
       }
   });
-
-Client.hasMany(Car, {
-    foreignKey: 'currentlyRentedToClientId'
-  });
-
-Car.hasOne(Client,  {
-    foreignKey: 'currentlyRentedCarsIds'
-  })
-
 
 export default Client;

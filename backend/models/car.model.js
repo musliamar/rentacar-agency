@@ -1,8 +1,12 @@
 import { DataTypes } from 'sequelize';
-import db from '../db.js';
+import db from '../database/connection.js';
 
 const Car = db.define('Car', {
 
+    chassisNumber: {
+    type: DataTypes.STRING,
+    allowNull: false
+    },
     manufacturer: {
       type: DataTypes.STRING,
       allowNull: false
