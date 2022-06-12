@@ -1,3 +1,3 @@
-## Rent-a-car agency app React frontend
+## Rent-a-car agency app
 
-Frontend in React with MUI components.
+My first app in React.
