@@ -4,6 +4,7 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
+import { Routes, Route } from "react-router-dom";
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
@@ -17,6 +18,10 @@ import FeaturedPost from './FeaturedPost';
 import Main from './Main';
 import Sidebar from './Sidebar'; */
 import Footer from './components/Footer.js';
+import HomePage from './components/HomePage.js';
+import AllCars from './components/AllCars.js';
+import SingleCar from './components/SingleCar.js';
+import AddCar from './components/AddCar.js';
 
 const theme = createTheme();
 
@@ -37,6 +42,13 @@ function App() {
         <Header links={links} />
         <main>
           <Grid container spacing={5} sx={{ mt: 3 }}>
+          <Routes>
+            <Route path="/" element={<HomePage title="This is homepage" />} />
+            <Route path="cars" element={<AllCars title="This is cars page" />}>
+              <Route path="cars/add" element={<AddCar title="This is add car page" />} />
+              <Route path=":id" element={<SingleCar title="This is single car page" />} />
+            </Route>
+          </Routes>
            {/*  <Main title="From the firehose" posts={posts} />
             <Sidebar
               title={sidebar.title}

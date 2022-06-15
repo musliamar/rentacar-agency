@@ -10,8 +10,8 @@ function Copyright() {
     <Typography variant="body2" color="text.secondary" align="center">
       {'Copyleft '}
       <Link color="inherit" href="https://amarmusli.ch/">
-      {'Amar Musli (amar@amarmusli.ch'}
-      </Link>{' '}
+      {'Amar Musli'}
+      </Link>{' (amar@amarmusli.ch) '}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
