@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import { dbConnection } from './database/db.js';
 import employeeRoutes from './routes/employee.routes.js';
 import carRoutes from './routes/car.routes.js';
@@ -17,6 +18,7 @@ app.listen(port, () => {
 
 dbConnection();
 
+app.use(cors());
 app.use('/employees', employeeRoutes);
 app.use('/clients', clientRoutes);
 app.use('/cars', carRoutes);

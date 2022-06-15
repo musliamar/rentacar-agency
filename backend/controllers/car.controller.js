@@ -1,23 +1,19 @@
 import Car from '../models/car.model.js';
 
-export const retrieveAllCars = async (req, res) => Car.findAll();
+export const retrieveAllCars = async (req, res) => {
+
+  const data = await Car.findAll();
+  data ? res.send(data) : res.status(404).send({message: 'Cannot retrieve cars'});
+
+}
 
 export const findCarById = async (req, res) => {
     
     const id = req.params.id;
     const car = await Car.findByPk(id);
-
-    if(car){
-      res.send(car);
-    }else if(!car){
-      res.status(404).send({
-        message: 'Cannot find Car with id=' + id
-      });
-    }else {
-      res.status(500).send({
-        message: 'Error retrieving Car with id=' + id
-      });
-    }
+    car ? res.send(car) : res.status(404).send({
+      message: 'Error retrieving Car with id=' + id
+    });
 } 
 
 export const deleteCar = async (req, res) => {
