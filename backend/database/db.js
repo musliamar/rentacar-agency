@@ -3,13 +3,22 @@ import Employee from '../models/employee.model.js';
 import Car from '../models/car.model.js'
 import Client from '../models/client.model.js';
 import Repair from '../models/carMaintenance.model.js';
+import Rental from '../models/carRentals.model.js';
 
 Client.hasMany(Car, {
     foreignKey: 'currentlyRentedToClientId'
   });
 
+Client.hasMany(Rental, {
+    foreignKey: 'rentedToClientId'
+  });
+
 Car.hasMany(Repair, {
     foreignKey: 'idOfRepairedCar'
+  });
+
+Car.hasMany(Rental, {
+    foreignKey: 'idOfRentedCar'
   });
 
 export const dbConnection = async () => {  
