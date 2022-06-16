@@ -1,4 +1,7 @@
 import http from '../http.js';
-import axios from 'axios';
 
-export const getAllCars = async () => await axios.get('http://localhost:3300/cars');
+const getAllCars = () => http.get('cars');
+
+const CarService = { getAllCars };
+
+export default CarService;
