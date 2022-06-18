@@ -10,7 +10,7 @@ const [ host, port, user, password, database ] = [
     process.env.MARIADB_DATABASE
 ];
 
-export const connection = await mariadb.createConnection({host, port, user, password});
+const connection = await mariadb.createConnection({host, port, user, password});
 const sequelizeAuth = new Sequelize(database, user, password, {host: host, dialect: 'mariadb'});
 
 export const createIfNotExists = async () => {

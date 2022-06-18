@@ -11,14 +11,97 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
+import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import ButtonBase from '@material-ui/core/ButtonBase';
+import Button from '@material-ui/core/Button';
+import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+
+const useStyles = makeStyles((theme) => ({
+  image: {
+    width: 128,
+    height: 128,
+  },
+  img: {
+    margin: 'auto',
+    display: 'block',
+    maxWidth: '100%',
+    maxHeight: '100%',
+  },
+  button: {
+    margin: theme.spacing(1),
+  },
+}));
 
 const CarsRows = (props) => {
 
   const { car } = props;
   const [open, setOpen] = React.useState(false);
+  const classes = useStyles();
 
   return (
-    <React.Fragment>
+   
+    <Paper>
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm container>
+          <Grid item xs container direction="column" spacing={2}>
+            <Grid item xs>
+              <Typography gutterBottom variant="subtitle1">
+                { car.manufacturer } { car. model}
+              </Typography>
+              <Typography variant="body2" gutterBottom>
+              chassisNumber: { car.chassisNumber }
+              </Typography>
+              <Typography variant="body2" gutterBottom>
+              Year: { car.yearOfProduction }
+              </Typography>
+              <Typography variant="body2" gutterBottom>
+              Fuel: { car.typeOfFuel }
+              </Typography>
+              <Typography variant="body2" gutterBottom>
+              Type: { car.typeOfCar }
+              </Typography>
+              <Typography variant="body2" gutterBottom>
+              Date of registration: { car.firstRegistration }
+              </Typography>
+              <Typography variant="body2" gutterBottom>
+              
+              </Typography>
+            </Grid>
+            <Grid item>
+            <Button
+        variant="contained"
+        color="primary"
+        className={classes.button}
+        endIcon={<EditIcon />}
+        href="#contained-buttons"
+      >
+        Update car
+      </Button>
+
+      <Button
+        variant="contained"
+        color="secondary"
+        className={classes.button}
+        startIcon={<DeleteIcon />}
+        href="#contained-buttons"
+      >
+        Delete car
+      </Button>
+            </Grid>
+          </Grid>
+          <Grid item>
+            <Typography variant="subtitle1">$19.00</Typography>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Paper>
+  
+
+   /* <React.Fragment>
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
         <TableCell>
           <IconButton
@@ -36,6 +119,7 @@ const CarsRows = (props) => {
         <TableCell align="right">{car.typeOfCar}</TableCell>
         <TableCell align="right">{car.typeOfFuel}</TableCell>
         <TableCell align="right">{car.firstRegistration}</TableCell>
+        <TableCell align="right">Modify car Remove car</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -80,7 +164,7 @@ const CarsRows = (props) => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {/* {car.history.map((historyRow) => (
+                  {car.history.map((historyRow) => (
                     <TableRow key={historyRow.date}>
                       <TableCell component="th" scope="row">
                         {historyRow.date}
@@ -91,16 +175,19 @@ const CarsRows = (props) => {
                         {Math.round(historyRow.amount * car.yearOfProduction * 100) / 100}
                       </TableCell>
                     </TableRow>
-                  ))} */}
+               ))} 
                 </TableBody>
               </Table>
             </Box>
           </Collapse>
         </TableCell>
       </TableRow>
-    </React.Fragment>
+    </React.Fragment> 
+                  ); */
   );
-}
+
+};
+  
 
 /* CarsRows.propTypes = {
   row: PropTypes.shape({

@@ -21,7 +21,7 @@ Car.hasMany(Rental, {
     foreignKey: 'idOfRentedCar'
   });
 
-export const dbConnection = async () => {  
+const dbConnection = async () => {  
 
     createIfNotExists();
 
@@ -32,3 +32,5 @@ export const dbConnection = async () => {
     console.log("All models were synchronized successfully.");
 
 }
+
+export default dbConnection;

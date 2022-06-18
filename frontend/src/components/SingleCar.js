@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 const SingleCar = (props) => {
 
   const { title } = props;
+  const { id } = useParams();
 
   return (
     <Grid
@@ -21,7 +22,7 @@ const SingleCar = (props) => {
       }}
     >
       <Typography variant="h6" gutterBottom>
-        {title}
+        {title} - id { id }
       </Typography>
 
       <Link to="/cars/add">Add cars</Link>

@@ -41,21 +41,16 @@ function App() {
       <Container maxWidth="lg">
         <Header links={links} />
         <main>
-          <Grid container spacing={5} sx={{ mt: 3 }}>
+          <Grid 
+          container 
+          spacing={5} 
+          sx={{ mt: 3 }}>
           <Routes>
             <Route path="/" element={<HomePage title="This is homepage" />} />
-            <Route path="cars" element={<AllCars title="This is cars page" />}>
-              <Route path="cars/add" element={<AddCar title="This is add car page" />} />
-              <Route path=":id" element={<SingleCar title="This is single car page" />} />
-            </Route>
+            <Route path="cars" element={<AllCars title="This is cars page" />} />
+            <Route path="cars/add" element={<AddCar title="This is add car page" />} />
+            <Route path="cars/:id" element={<SingleCar title="This is single car page" />} />
           </Routes>
-           {/*  <Main title="From the firehose" posts={posts} />
-            <Sidebar
-              title={sidebar.title}
-              description={sidebar.description}
-              archives={sidebar.archives}
-              social={sidebar.social}
-            /> */}
           </Grid>
         </main>
       </Container>
