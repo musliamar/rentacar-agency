@@ -7,6 +7,10 @@ const Client = db.define('Client', {
         type: DataTypes.STRING,
         allowNull: false
     },
+    typeOfIdDocument: {
+      type: DataTypes.STRING,
+      allowNull: false
+  },
     firstName: {
       type: DataTypes.STRING,
       allowNull: false

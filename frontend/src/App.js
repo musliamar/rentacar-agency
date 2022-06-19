@@ -20,10 +20,24 @@ import Sidebar from './Sidebar'; */
 import Footer from './components/Footer.js';
 import HomePage from './components/HomePage.js';
 import AllCars from './components/AllCars.js';
+import AllClients from './components/AllClients.js';
 import SingleCar from './components/SingleCar.js';
 import AddCar from './components/AddCar.js';
 
-const theme = createTheme();
+const theme = createTheme({
+  components: {
+    // Name of the component
+    MuiTypography: {
+      styleOverrides: {
+        // Name of the slot
+        root: {
+          // Some CSS
+          textAlign: 'start',
+        },
+      },
+    },
+  },
+});
 
 const links = [
 
@@ -50,6 +64,7 @@ function App() {
             <Route path="cars" element={<AllCars title="This is cars page" />} />
             <Route path="cars/add" element={<AddCar title="This is add car page" />} />
             <Route path="cars/:id" element={<SingleCar title="This is single car page" />} />
+            <Route path="clients" element={<AllClients title="This is all clients page" />} />
           </Routes>
           </Grid>
         </main>
