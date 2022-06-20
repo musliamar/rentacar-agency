@@ -2,47 +2,26 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Service from '../http.js';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import CarCard from './SingleCarCard.js';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import Stack from '@mui/material/Stack';
-import CardActions from '@mui/material/CardActions';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
-import DeleteIcon from '@mui/icons-material/Delete';
+import Form, { modalStyle } from './AddOrUpdateForm.js';
+import CloseIcon from '@mui/icons-material/Close';
 
 const AllClients = () => {
 
   const title = 'All clients';
   const [clients, setClient] = useState([]);
-  const [openModal, setOpenModal] = useState(false);
-  const handleOpenModal = () => setOpenModal(true);
-  const handleCloseModal = () => setOpenModal(false);
-
-  const modalStyle = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-  };
+  const [open, setOpen] = React.useState(false);
+  const handleOpenModal = () => setOpen(true);
+  const handleCloseModal = () => setOpen(false);
 
     useEffect(() => {
         getClients();
@@ -91,7 +70,7 @@ const AllClients = () => {
     <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
-        open={openModal}
+        open={open}
         onClose={handleCloseModal}
         closeAfterTransition
         BackdropComponent={Backdrop}
@@ -99,21 +78,17 @@ const AllClients = () => {
           timeout: 500,
         }}
       >
-        <Fade in={openModal}>
+        <Fade in={open}>
           <Box sx={modalStyle}>
-          <Button variant="contained" color="error" onClick={handleCloseModal} startIcon={<DeleteIcon />}>
+          <Stack justifyContent="right" direction="row">
+          <Button variant="contained" color="error" onClick={handleCloseModal} startIcon={<CloseIcon />}>
         Close
-      </Button>
-            <Typography id="transition-modal-title" variant="h6" component="h2">
-              Add or update client.
-            </Typography>
-            <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-              This modal will be for updating or adding clients.
-            </Typography>
+      </Button></Stack>
+
+           <Form />
           </Box>
         </Fade>
       </Modal>
-
     </>
   );
 }

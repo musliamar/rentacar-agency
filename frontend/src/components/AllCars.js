@@ -13,6 +13,19 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import DeleteIcon from '@mui/icons-material/Delete';
+import CloseIcon from '@mui/icons-material/Close';
+
+const modalStyle = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
 
 const AllCars = () => {
 
@@ -21,18 +34,6 @@ const AllCars = () => {
   const [openModal, setOpenModal] = useState(false);
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
-
-  const modalStyle = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-  };
  
     useEffect(() => {
         getCars();
@@ -91,7 +92,7 @@ const AllCars = () => {
       >
         <Fade in={openModal}>
           <Box sx={modalStyle}>
-          <Button variant="contained" color="error" onClick={handleCloseModal} startIcon={<DeleteIcon />}>
+          <Button variant="contained" color="error" onClick={handleCloseModal} startIcon={<CloseIcon />}>
         Close
       </Button>
             <Typography id="transition-modal-title" variant="h6" component="h2">
