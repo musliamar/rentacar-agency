@@ -19,11 +19,20 @@ import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import { styled } from '@mui/material/styles';
 import Stack from '@mui/material/Stack';
+import Modal from '@mui/material/Modal';
+import Fade from '@mui/material/Fade';
+import CloseIcon from '@mui/icons-material/Close';
+import Form, { modalStyle } from './AddOrUpdateForm.js';
+import { useState } from 'react';
+import Backdrop from '@mui/material/Backdrop';
 
 const CarsRows = (props) => {
 
-  const { car } = props;
+  const { fields, car } = props;
   const [open, setOpen] = React.useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const handleOpenModal = () => setOpenModal(true);
+  const handleCloseModal = () => setOpenModal(false);
 
   return (
    
@@ -62,7 +71,7 @@ const CarsRows = (props) => {
               </Typography>
        
               <Stack direction="row" spacing={2}>
-              <Button variant="contained" endIcon={<EditIcon />}>
+              <Button variant="contained" onClick={handleOpenModal} endIcon={<EditIcon />}>
         Update
       </Button>
 
@@ -74,6 +83,29 @@ const CarsRows = (props) => {
       </Box>
             </Grid>
            
+            <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={openModal}
+        onClose={handleCloseModal}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={openModal}>
+          <Box sx={modalStyle}>
+          <Stack justifyContent="right" direction="row">
+          <Button variant="contained" color="error" onClick={handleCloseModal} startIcon={<CloseIcon />}>
+        Close
+      </Button></Stack>
+
+           <Form data={car} fields={fields} />
+          </Box>
+        </Fade>
+      </Modal>
+      
             </>
   );
 

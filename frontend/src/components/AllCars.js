@@ -14,18 +14,7 @@ import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
-
-const modalStyle = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
+import Form, { modalStyle } from './AddOrUpdateForm.js';
 
 const AllCars = () => {
 
@@ -35,6 +24,14 @@ const AllCars = () => {
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
  
+  const carFields = [
+    {"name":"Chassis number"},
+    {"name":"Manufacturer"},
+    {"name":"Model"},
+    {"name":"Type"},
+    {"name":"Fuel"},
+    {"name":"First registration"}];
+
     useEffect(() => {
         getCars();
     }, []);
@@ -74,7 +71,7 @@ const AllCars = () => {
     <Grid container item spacing={2}>  
     
           {cars.map((car) => (
-            <CarCard key={car.chassisNumber} car={car} />
+            <CarCard key={car.chassisNumber} car={car} fields={carFields} />
           ))}
     
     </Grid>
@@ -92,15 +89,12 @@ const AllCars = () => {
       >
         <Fade in={openModal}>
           <Box sx={modalStyle}>
+          <Stack justifyContent="right" direction="row">
           <Button variant="contained" color="error" onClick={handleCloseModal} startIcon={<CloseIcon />}>
         Close
-      </Button>
-            <Typography id="transition-modal-title" variant="h6" component="h2">
-              Add or update car
-            </Typography>
-            <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-              This modal will be for updating or adding cars.
-            </Typography>
+      </Button></Stack>
+
+           <Form fields={carFields} />
           </Box>
         </Fade>
       </Modal>

@@ -14,9 +14,39 @@ export const modalStyle = {
     p: 4,
   };
 
-const AddOrUpdateForm = () => {
+  const carFields = [
+    {"name":"Chassis number"},
+    {"name":"Manufacturer"},
+    {"name":"Model"},
+    {"name":"Type"},
+    {"name":"Fuel"},
+    {"name":"First registration"}];
+
+const AddOrUpdateForm = (props) => {
+
+    const { data } = props;
+    const fields = [];
+
+    if (!data) {
+      fields.push(<TextField
+      id="filled-helperText"
+      label= "Default label"
+      defaultValue= "Default value"
+      helperText="Some important text"
+      variant="filled" />);
+    } else {
+      for(const field in data){
+      fields.push(<TextField
+        id="filled-helperText"
+        label= {field}
+        defaultValue= {data[field]}
+        helperText="Some important text"
+        variant="filled" />);
+    }}
+  
 
     return (
+
     <Box
     component="form"
     sx={{
@@ -24,48 +54,9 @@ const AddOrUpdateForm = () => {
     }}
     noValidate
     autoComplete="off">
-        <TextField
-          id="filled-helperText"
-          label="Helper text"
-          defaultValue="Default Value"
-          helperText="Some important text"
-          variant="filled"
-        />
-        <TextField
-          id="filled-helperText"
-          label="Helper text"
-          defaultValue="Default Value"
-          helperText="Some important text"
-          variant="filled"
-        />
-        <TextField
-          id="filled-helperText"
-          label="Helper text"
-          defaultValue="Default Value"
-          helperText="Some important text"
-          variant="filled"
-        />
-        <TextField
-          id="filled-helperText"
-          label="Helper text"
-          defaultValue="Default Value"
-          helperText="Some important text"
-          variant="filled"
-        />
-        <TextField
-          id="filled-helperText"
-          label="Helper text"
-          defaultValue="Default Value"
-          helperText="Some important text"
-          variant="filled"
-        />
-        <TextField
-          id="filled-helperText"
-          label="Helper text"
-          defaultValue="Default Value"
-          helperText="Some important text"
-          variant="filled"
-        />
+      
+     {fields}
+
     </Box>
 
 )};

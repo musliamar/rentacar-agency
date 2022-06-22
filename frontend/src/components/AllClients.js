@@ -19,9 +19,9 @@ const AllClients = () => {
 
   const title = 'All clients';
   const [clients, setClient] = useState([]);
-  const [open, setOpen] = React.useState(false);
-  const handleOpenModal = () => setOpen(true);
-  const handleCloseModal = () => setOpen(false);
+  const [openModal, setOpenModal] = React.useState(false);
+  const handleOpenModal = () => setOpenModal(true);
+  const handleCloseModal = () => setOpenModal(false);
 
     useEffect(() => {
         getClients();
@@ -70,7 +70,7 @@ const AllClients = () => {
     <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
-        open={open}
+        open={openModal}
         onClose={handleCloseModal}
         closeAfterTransition
         BackdropComponent={Backdrop}
@@ -78,7 +78,7 @@ const AllClients = () => {
           timeout: 500,
         }}
       >
-        <Fade in={open}>
+        <Fade in={openModal}>
           <Box sx={modalStyle}>
           <Stack justifyContent="right" direction="row">
           <Button variant="contained" color="error" onClick={handleCloseModal} startIcon={<CloseIcon />}>
