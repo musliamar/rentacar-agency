@@ -28,7 +28,28 @@ import Backdrop from '@mui/material/Backdrop';
 
 const CarsRows = (props) => {
 
-  const { fields, car } = props;
+  const { data } = props;
+
+  const { id, createdAt, updatedAt, ...fieldsData } = data;
+
+  const keysToRename = {
+
+    typeOfCar: 'Type of car',
+    chassisNumber: 'Chassis number',
+    currentlyRentedToClientId: 'Currently rented to',
+    firstRegistration: 'Date of registration',
+    manufacturer: 'Manufacturer',
+    model: 'Model',
+    typeOfFuel: 'Type of fuel',
+    yearOfProduction: 'Year of production',
+    
+  };
+
+  const renamedFieldKeys = Object.keys(fieldsData).reduce((newRenamedKeys, key) => {
+    newRenamedKeys[keysToRename[key]] = fieldsData[key];
+    return newRenamedKeys;
+  }, {});
+
   const [open, setOpen] = React.useState(false);
   const [openModal, setOpenModal] = useState(false);
   const handleOpenModal = () => setOpenModal(true);
@@ -48,23 +69,23 @@ const CarsRows = (props) => {
     >
       <Paper elevation={6}>
       
-              <Typography gutterBottom variant="subtitle1">
-                { car.manufacturer } { car. model}
+             <Typography gutterBottom variant="subtitle1">
+                { renamedFieldKeys['Manufacturer'] } { renamedFieldKeys['Model'] }
+              </Typography>
+             <Typography variant="body2" gutterBottom>
+              Chassis number: { data.chassisNumber }
               </Typography>
               <Typography variant="body2" gutterBottom>
-              chassisNumber: { car.chassisNumber }
+              Year: { data.yearOfProduction }
               </Typography>
               <Typography variant="body2" gutterBottom>
-              Year: { car.yearOfProduction }
+              Fuel: { data.typeOfFuel }
               </Typography>
               <Typography variant="body2" gutterBottom>
-              Fuel: { car.typeOfFuel }
+              Type: { data.typeOfCar }
               </Typography>
               <Typography variant="body2" gutterBottom>
-              Type: { car.typeOfCar }
-              </Typography>
-              <Typography variant="body2" gutterBottom>
-              Date of registration: { car.firstRegistration }
+              Date of registration: { data.firstRegistration }
               </Typography>
               <Typography variant="body2" gutterBottom>
               
@@ -101,7 +122,7 @@ const CarsRows = (props) => {
         Close
       </Button></Stack>
 
-           <Form data={car} fields={fields} />
+           <Form data={renamedFieldKeys} />
           </Box>
         </Fade>
       </Modal>

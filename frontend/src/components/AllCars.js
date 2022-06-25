@@ -23,14 +23,6 @@ const AllCars = () => {
   const [openModal, setOpenModal] = useState(false);
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
- 
-  const carFields = [
-    {"name":"Chassis number"},
-    {"name":"Manufacturer"},
-    {"name":"Model"},
-    {"name":"Type"},
-    {"name":"Fuel"},
-    {"name":"First registration"}];
 
     useEffect(() => {
         getCars();
@@ -40,6 +32,16 @@ const AllCars = () => {
       const carsFetch = await Service.getAllCars();
       setCar(carsFetch.data);
   }
+
+  const carFields = [
+    {"name":"Chassis number"},
+    {"name":"Manufacturer"},
+    {"name":"Model"},
+    {"name":"Year of production"},
+    {"name":"Currently rented to"},
+    {"name":"Type of car"},
+    {"name":"Type of fuel"},
+    {"name":"Date of registration"}];
 
   return (
     <>
@@ -71,7 +73,7 @@ const AllCars = () => {
     <Grid container item spacing={2}>  
     
           {cars.map((car) => (
-            <CarCard key={car.chassisNumber} car={car} fields={carFields} />
+            <CarCard key={car.chassisNumber} data={car} />
           ))}
     
     </Grid>
@@ -94,7 +96,7 @@ const AllCars = () => {
         Close
       </Button></Stack>
 
-           <Form fields={carFields} />
+           <Form emptyData={carFields} />
           </Box>
         </Fade>
       </Modal>
