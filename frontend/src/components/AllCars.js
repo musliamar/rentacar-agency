@@ -8,29 +8,33 @@ import CarCard from './SingleCarCard.js';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import Stack from '@mui/material/Stack';
-import Backdrop from '@mui/material/Backdrop';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import Fade from '@mui/material/Fade';
-import DeleteIcon from '@mui/icons-material/Delete';
-import CloseIcon from '@mui/icons-material/Close';
-import Form, { modalStyle } from './AddOrUpdateForm.js';
+import Form, { BootstrapDialog } from './AddOrUpdateForm.js';
 
 const AllCars = () => {
 
   const title = 'All cars';
   const [cars, setCar] = useState([]);
-  const [openModal, setOpenModal] = useState(false);
-  const handleOpenModal = () => setOpenModal(true);
-  const handleCloseModal = () => setOpenModal(false);
+  const [open, setOpen] = useState(false);
 
-    useEffect(() => {
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  useEffect(() => {
         getCars();
-    }, []);
+  }, []);
  
   const getCars = async () => {
       const carsFetch = await Service.getAllCars();
       setCar(carsFetch.data);
+  }
+
+  const retrieveNewData = (data) => {
+    console.log(data);
   }
 
   const carFields = [
@@ -45,61 +49,36 @@ const AllCars = () => {
 
   return (
     <>
-  <Grid item xs={12} md={12}>
+      <Grid item xs={12} md={12}>
+        <Stack direction="row" spacing={2}>
+          <Typography variant="h4" gutterBottom>
+            {title}
+          </Typography>
+        </Stack>
 
-  <Stack direction="row" spacing={2}>
-  <Typography 
-          variant="h4" gutterBottom>
-      {title}
-    </Typography>
+        <Stack justifyContent="right" direction="row" spacing={2}>
+          <Button
+          variant="contained"
+          color="primary"
+          endIcon={<AddIcon />}
+          onClick={handleClickOpen}>
+            Add car
+          </Button>
+        </Stack>
+      </Grid>
       
-</Stack>
+      <Grid container item spacing={2}>  
+        {cars.map((car) => (
+          <CarCard key={car.chassisNumber} data={car} />
+        ))}
+      </Grid>
 
-<Stack justifyContent="right" direction="row" spacing={2}>
-
-<Button
-        variant="contained"
-        color="primary"
-        endIcon={<AddIcon />}
-        onClick={handleOpenModal}
-      >
-        Add car
-      </Button>
-
-</Stack>
-    
-    </Grid>
-
-    <Grid container item spacing={2}>  
-    
-          {cars.map((car) => (
-            <CarCard key={car.chassisNumber} data={car} />
-          ))}
-    
-    </Grid>
-
-    <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={openModal}
-        onClose={handleCloseModal}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={openModal}>
-          <Box sx={modalStyle}>
-          <Stack justifyContent="right" direction="row">
-          <Button variant="contained" color="error" onClick={handleCloseModal} startIcon={<CloseIcon />}>
-        Close
-      </Button></Stack>
-
-           <Form emptyData={carFields} />
-          </Box>
-        </Fade>
-      </Modal>
+      <BootstrapDialog
+      onClose={handleClose}
+      aria-labelledby="customized-dialog-title"
+      open={open}>
+        <Form retriever={retrieveNewData} close={handleClose} emptyData={carFields} />
+      </BootstrapDialog>
     </>
   );
 }

@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -8,30 +7,18 @@ import { Routes, Route } from "react-router-dom";
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import TwitterIcon from '@mui/icons-material/Twitter';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Header from './components/Header.js';
-/* import MainFeaturedPost from './MainFeaturedPost';
-import FeaturedPost from './FeaturedPost';
-import Main from './Main';
-import Sidebar from './Sidebar'; */
 import Footer from './components/Footer.js';
 import HomePage from './components/HomePage.js';
 import AllCars from './components/AllCars.js';
 import AllClients from './components/AllClients.js';
-import SingleCar from './components/SingleCar.js';
-import AddCar from './components/AddCar.js';
 
 const theme = createTheme({
   components: {
-    // Name of the component
     MuiTypography: {
       styleOverrides: {
-        // Name of the slot
         root: {
-          // Some CSS
           textAlign: 'start',
         },
       },
@@ -62,8 +49,6 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage title="This is homepage" />} />
             <Route path="cars" element={<AllCars title="This is cars page" />} />
-            <Route path="cars/add" element={<AddCar title="This is add car page" />} />
-            <Route path="cars/:id" element={<SingleCar title="This is single car page" />} />
             <Route path="clients" element={<AllClients title="This is all clients page" />} />
           </Routes>
           </Grid>

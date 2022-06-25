@@ -1,33 +1,63 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import SaveIcon from '@mui/icons-material/Save';
-import SaveAsIcon from '@mui/icons-material/SaveAs';
-import Stack from '@mui/material/Stack';
 import { useState } from 'react';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import PropTypes from 'prop-types';
+import Button from '@mui/material/Button';
+import { styled } from '@mui/material/styles';
+import Dialog from '@mui/material/Dialog';
 
-export const modalStyle = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-  };
+export const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+  '& .MuiDialogContent-root': {
+    padding: theme.spacing(2),
+  },
+  '& .MuiDialogActions-root': {
+    padding: theme.spacing(1),
+  },
+}));
+
+const BootstrapDialogTitle = (props) => {
+  const { children, onClose, ...other } = props;
+
+  return (
+    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
+      {children}
+      {onClose ? (
+        <IconButton
+          aria-label="close"
+          onClick={onClose}
+          sx={{
+            position: 'absolute',
+            right: 8,
+            top: 8,
+            color: (theme) => theme.palette.grey[500],
+          }}>
+            <CloseIcon />
+        </IconButton>
+      ) : null}
+    </DialogTitle>
+  );
+};
+
+BootstrapDialogTitle.propTypes = {
+  children: PropTypes.node,
+  onClose: PropTypes.func.isRequired,
+};
 
 const AddOrUpdateForm = (props) => {
 
-    const { emptyData, data } = props;
+    const { close, emptyData, data, retriever } = props;
     const fields = [];
     const [newData, setNewData] = useState();
 
     const handleInputChange = (event) => {
       const { name, value } = event.target;
       setNewData({ ...newData, [name]: value });
-      console.log(newData);
+      retriever(newData);
     };
 
     if (!data) {
@@ -60,36 +90,18 @@ const AddOrUpdateForm = (props) => {
 
     return (
       <>
-    <Box
-    component="form"
-    sx={{
-      '& .MuiTextField-root': { m: 1, width: '25ch' },
-    }}
-    noValidate
-    autoComplete="off">
-      
-     {fields}
-
-     <TextField
-        id="filled-helperText"
-        label= 'oujea'
-        defaultValue= 'test'
-        onChange= {handleInputChange}
-        helperText="Some important text"
-        variant="filled" />
-
-    </Box>
-
-<Stack justifyContent="right" direction="row">
-<Button
-        variant="contained"
-        color="primary"
-        endIcon={<SaveIcon />}
-        /* onClick={handleOpenModal} */
-      >
-        { !data ? 'Save new' : 'Save changes' }
-      </Button></Stack>
-</>
+        <BootstrapDialogTitle id="customized-dialog-title" onClose={close}>
+          Modal title
+        </BootstrapDialogTitle>
+        <DialogContent dividers>
+        {fields}
+        </DialogContent>
+        <DialogActions>
+          <Button autoFocus onClick={close}>
+            Save changes
+          </Button>
+        </DialogActions>
+      </>
 )};
 
 export default AddOrUpdateForm;

@@ -8,21 +8,12 @@ import CarCard from './SingleCarCard.js';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import Stack from '@mui/material/Stack';
-import Backdrop from '@mui/material/Backdrop';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import Fade from '@mui/material/Fade';
-import Form, { modalStyle } from './AddOrUpdateForm.js';
-import CloseIcon from '@mui/icons-material/Close';
 
 const AllClients = () => {
 
   const title = 'All clients';
   const [clients, setClient] = useState([]);
-  const [openModal, setOpenModal] = React.useState(false);
-  const handleOpenModal = () => setOpenModal(true);
-  const handleCloseModal = () => setOpenModal(false);
-
+  
     useEffect(() => {
         getClients();
     }, []);
@@ -50,7 +41,7 @@ const AllClients = () => {
         variant="contained"
         color="primary"
         endIcon={<AddIcon />}
-        onClick={handleOpenModal}
+       /*  onClick={handleOpenModal} */
       >
         New client
       </Button>
@@ -67,28 +58,7 @@ const AllClients = () => {
     
     </Grid>
 
-    <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={openModal}
-        onClose={handleCloseModal}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={openModal}>
-          <Box sx={modalStyle}>
-          <Stack justifyContent="right" direction="row">
-          <Button variant="contained" color="error" onClick={handleCloseModal} startIcon={<CloseIcon />}>
-        Close
-      </Button></Stack>
 
-           <Form />
-          </Box>
-        </Fade>
-      </Modal>
     </>
   );
 }
