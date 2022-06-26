@@ -26,7 +26,7 @@ export const deleteCar = async (req, res) => {
 
 export const createCar = async (req, res) => {
 
-    const chassisNumber = req.body.chassisNumber;
+   const chassisNumber = req.body.chassisNumber;
 
     if (await Car.findOne({ where: { chassisNumber: chassisNumber } })) {
         res.send({
@@ -35,13 +35,12 @@ export const createCar = async (req, res) => {
 
     } else {
 
-        await Car.create(req.body);
+        await Car.create(req.body); 
         res.send({
             message: 'Car added successfully!'
           });
     }
-
-} 
+  }
 
 export const updateCar = async (req, res) => {
 

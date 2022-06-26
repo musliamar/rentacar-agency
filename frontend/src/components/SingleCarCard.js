@@ -16,6 +16,8 @@ const CarsRows = (props) => {
   const { data } = props;
   const { id, createdAt, updatedAt, ...fieldsData } = data;
   const reducedData = dataHelper(fieldsData);
+  const dialogTitle = 'Update car';
+  const dialogButtonText = 'Save changes';
 
   const retrieveNewData = (newData) => {
     console.log(newData);
@@ -71,7 +73,12 @@ const CarsRows = (props) => {
             onClose={handleClose}
             aria-labelledby="customized-dialog-title"
             open={open}>
-              <Form retriever={retrieveNewData} close={handleClose} data={reducedData} />
+              <Form 
+              retriever={retrieveNewData} 
+              close={handleClose} 
+              title={dialogTitle} 
+              buttonText={dialogButtonText}
+              data={reducedData} />
             </BootstrapDialog>
           </>
   );

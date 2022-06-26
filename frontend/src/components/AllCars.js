@@ -9,11 +9,15 @@ import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import Stack from '@mui/material/Stack';
 import Form, { BootstrapDialog } from './AddOrUpdateForm.js';
+import { revertData } from '../data.helper.js';
 
 const AllCars = () => {
 
   const title = 'All cars';
+  const dialogTitle = 'Add new car';
+  const dialogButtonText = 'Save new car';
   const [cars, setCar] = useState([]);
+  const [newData, setNewData] = useState([]);
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -33,9 +37,13 @@ const AllCars = () => {
       setCar(carsFetch.data);
   }
 
-  const retrieveNewData = (data) => {
-    console.log(data);
-  }
+  const retrieveNewData = (data) => setNewData(data);
+
+  const newCar = async () => {
+    const revertedData = revertData(newData);
+    const addedCar = await Service.addNewCar(revertedData);
+    console.log(addedCar);
+}
 
   const carFields = [
     {"name":"Chassis number"},
@@ -77,7 +85,13 @@ const AllCars = () => {
       onClose={handleClose}
       aria-labelledby="customized-dialog-title"
       open={open}>
-        <Form retriever={retrieveNewData} close={handleClose} emptyData={carFields} />
+        <Form 
+        retriever={retrieveNewData} 
+        close={handleClose} 
+        title={dialogTitle}
+        action={newCar} 
+        buttonText={dialogButtonText}
+        emptyData={carFields} />
       </BootstrapDialog>
     </>
   );

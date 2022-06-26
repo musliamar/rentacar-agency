@@ -23,4 +23,29 @@ const dataHelper = (props) => {
     return renamedFieldKeys;
 };
 
+export const revertData = (props) => {
+
+  const { ...fieldsData } = props;
+
+  const revertKeys = {
+
+    'Type of car': 'typeOfCar',
+    'Chassis number': 'chassisNumber',
+    'Currently rented to': 'currentlyRentedToClientId',
+    'Date of registration': 'firstRegistration',
+    'Manufacturer': 'manufacturer',
+    'Model': 'model',
+    'Type of fuel': 'typeOfFuel',
+    'Year of production': 'yearOfProduction',
+    
+  };
+
+  const renamedFieldKeys = Object.keys(fieldsData).reduce((newRenamedKeys, key) => {
+    newRenamedKeys[revertKeys[key]] = fieldsData[key];
+    return newRenamedKeys;
+  }, {});
+
+  return renamedFieldKeys;
+};
+
 export default dataHelper;

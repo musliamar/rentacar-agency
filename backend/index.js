@@ -19,6 +19,7 @@ app.listen(port, () => {
 connection();
 
 app.use(cors());
+app.use(express.json());
 app.use('/employees', employeeRoutes);
 app.use('/clients', clientRoutes);
 app.use('/cars', carRoutes);

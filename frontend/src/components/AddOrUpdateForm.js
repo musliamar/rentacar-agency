@@ -15,8 +15,11 @@ export const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
     padding: theme.spacing(2),
   },
-  '& .MuiDialogActions-root': {
-    padding: theme.spacing(1),
+  '& .MuiDialogContent-root': {
+    padding: theme.spacing(2),
+  },
+  '& .MuiPaper-root': {
+    maxWidth: 800,
   },
 }));
 
@@ -50,7 +53,7 @@ BootstrapDialogTitle.propTypes = {
 
 const AddOrUpdateForm = (props) => {
 
-    const { close, emptyData, data, retriever } = props;
+    const { action, title, buttonText, close, emptyData, data, retriever } = props;
     const fields = [];
     const [newData, setNewData] = useState();
 
@@ -65,11 +68,13 @@ const AddOrUpdateForm = (props) => {
       emptyData.map((field) => (
         fields.push(<TextField
           id="filled-helperText"
-          label= {field.name}
+          key = {field.name}
+          label = {field.name}
           name = {field.name}
+          sx={{ m: 1, width: 300 }}
           defaultValue= 'Default text'
           onChange= {handleInputChange}
-          helperText="Some important text"
+          
           variant="filled" />)
       ))
 
@@ -80,9 +85,10 @@ const AddOrUpdateForm = (props) => {
         id="filled-helperText"
         label= {field}
         name = {field}
+        sx={{ m: 1, width: 300 }}
         defaultValue= {data[field]}
         onChange= {handleInputChange}
-        helperText="Some important text"
+        
         variant="filled" />);
         
     }}
@@ -91,14 +97,14 @@ const AddOrUpdateForm = (props) => {
     return (
       <>
         <BootstrapDialogTitle id="customized-dialog-title" onClose={close}>
-          Modal title
+          {title}
         </BootstrapDialogTitle>
         <DialogContent dividers>
         {fields}
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={close}>
-            Save changes
+          <Button autoFocus onClick={action}>
+            {buttonText}
           </Button>
         </DialogActions>
       </>
