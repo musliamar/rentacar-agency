@@ -10,27 +10,56 @@ import Form, { BootstrapDialog } from './AddOrUpdateForm.js';
 import { useState } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import dataHelper from '../data.helper.js';
+import { revertData } from '../data.helper.js';
+import Service from '../http.js';
+import Message, { Alert } from './AddOrUpdateForm.js';
+import Snackbar from '@mui/material/Snackbar';
+
 
 const CarsRows = (props) => {
 
   const { data } = props;
   const { id, createdAt, updatedAt, ...fieldsData } = data;
+
   const reducedData = dataHelper(fieldsData);
   const dialogTitle = 'Update car';
   const dialogButtonText = 'Save changes';
 
-  const retrieveNewData = (newData) => {
-    console.log(newData);
-  }
+  const [newData, setNewData] = useState(reducedData);
 
-  const [open, setOpen] = useState(false);
+  const [alert, setAlert] = useState({
+    open: false,
+    message: null,
+    severity: null
+  });
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const openSnackbar = (props) => setAlert({message: props.data.message, open: true, severity: props.data.severity});
+
+  const [openForm, setOpenForm] = useState(false);
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setAlert({open: false});
   };
-  
-  const handleClose = () => {
-    setOpen(false);
+
+  const handleCloseForm = () => setOpenForm(false);
+  const retrieveNewData = (props) => setNewData(props);
+  const deleteCar = async () => await Service.deleteCar(id);
+
+  const handleOpenForm = () => {
+    setOpenForm(true);
+    setNewData(reducedData);
+  };
+
+  const updateCar = async () => {
+    const revertedData = revertData(newData);
+    revertedData.id = id;
+    const response = await Service.updateCar(revertedData);
+    handleCloseForm();
+    openSnackbar(response);
   };
 
   return (
@@ -58,10 +87,10 @@ const CarsRows = (props) => {
                   </Typography> 
 
                   <Stack direction="row" spacing={2}>
-                    <Button variant="contained" onClick={handleClickOpen} endIcon={<EditIcon />}>
+                    <Button variant="contained" onClick={handleOpenForm} endIcon={<EditIcon />}>
                       Update
                     </Button>
-                    <Button variant="contained" color="error" startIcon={<DeleteIcon />}>
+                    <Button variant="contained" color="error" onClick={deleteCar} startIcon={<DeleteIcon />}>
                       Delete
                     </Button>
                   </Stack>
@@ -70,16 +99,28 @@ const CarsRows = (props) => {
             </Grid>
 
             <BootstrapDialog 
-            onClose={handleClose}
+            onClose={handleCloseForm}
             aria-labelledby="customized-dialog-title"
-            open={open}>
+            open={openForm}>
               <Form 
+              id={id}
               retriever={retrieveNewData} 
-              close={handleClose} 
+              close={handleCloseForm} 
               title={dialogTitle} 
               buttonText={dialogButtonText}
-              data={reducedData} />
+              data={reducedData} 
+              action={updateCar} />
+         
             </BootstrapDialog>
+
+            <Snackbar open={alert.open} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+
+            <Alert onClose={handleCloseSnackbar}  severity={alert.severity} sx={{ width: '100%' }}>
+            {alert.message}
+            </Alert>
+
+            </Snackbar>
+            
           </>
   );
 

@@ -5,31 +5,31 @@ const Car = db.define('Car', {
 
     chassisNumber: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: true
     },
     manufacturer: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true
     },
     model: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true
     },
     yearOfProduction: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: true
     },
     typeOfCar: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true
     },
     typeOfFuel: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true
     },
     firstRegistration: {
       type: DataTypes.DATEONLY,
-      allowNull: false
+      allowNull: true
     }
   });
 

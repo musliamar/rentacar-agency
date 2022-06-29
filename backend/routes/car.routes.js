@@ -13,7 +13,7 @@ const router = express.Router();
 router.get('/', retrieveAllCars);
 router.get('/:id', findCarById);
 router.post('/', createCar);
-router.put('/:id', updateCar);
+router.patch('/:id', updateCar);
 router.delete('/:id', deleteCar);
 
 export default router;

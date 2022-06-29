@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { forwardRef } from 'react';
 import TextField from '@mui/material/TextField';
 import { useState } from 'react';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -10,11 +11,22 @@ import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
+import MuiAlert from '@mui/material/Alert';
+
+export const Alert = forwardRef((props, ref) =>
+  <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
+  );
+
+/* export const Message = (props) => {
+
+  const { onClose, severity, message, sx, ...rest } = props;
+
+  <Alert onClose={onClose} severity={severity} sx={sx} {...rest}>
+  {message}
+  </Alert>
+} */
 
 export const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-  '& .MuiDialogContent-root': {
-    padding: theme.spacing(2),
-  },
   '& .MuiDialogContent-root': {
     padding: theme.spacing(2),
   },
@@ -48,15 +60,15 @@ const BootstrapDialogTitle = (props) => {
 
 BootstrapDialogTitle.propTypes = {
   children: PropTypes.node,
-  onClose: PropTypes.func.isRequired,
+ /*  onClose: PropTypes.func.isRequired, */
 };
 
 const AddOrUpdateForm = (props) => {
 
-    const { action, title, buttonText, close, emptyData, data, retriever } = props;
+    const { action, title, buttonText, close, initialData, data, retriever } = props;
+    const [newData, setNewData] = useState(initialData);
     const fields = [];
-    const [newData, setNewData] = useState();
-
+    
     const handleInputChange = (event) => {
       const { name, value } = event.target;
       setNewData({ ...newData, [name]: value });
@@ -64,35 +76,30 @@ const AddOrUpdateForm = (props) => {
     };
 
     if (!data) {
-      
-      emptyData.map((field) => (
+      for(const field in initialData){
         fields.push(<TextField
-          id="filled-helperText"
-          key = {field.name}
-          label = {field.name}
-          name = {field.name}
+          id="outlined-basic" 
+          variant="outlined"
+          key= {field}
+          label= {field}
+          name = {field}
           sx={{ m: 1, width: 300 }}
-          defaultValue= 'Default text'
+          defaultValue= {initialData[field]}
           onChange= {handleInputChange}
-          
-          variant="filled" />)
-      ))
-
-    } else {
-
-      for(const field in data){
-      fields.push(<TextField
-        id="filled-helperText"
-        label= {field}
-        name = {field}
-        sx={{ m: 1, width: 300 }}
-        defaultValue= {data[field]}
-        onChange= {handleInputChange}
-        
-        variant="filled" />);
-        
-    }}
-  
+          onMouseLeave = {handleInputChange} />)}
+      } else {
+        for(const field in data){
+          fields.push(<TextField
+          id="outlined-basic" 
+          variant="outlined"
+          key={field}
+          label= {field}
+          name = {field}
+          sx={{ m: 1, width: 300 }}
+          defaultValue= {data[field]}
+          onChange= {handleInputChange}
+          onMouseLeave = {handleInputChange} />)}
+      }
 
     return (
       <>

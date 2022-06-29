@@ -18,15 +18,14 @@ export const findCarById = async (req, res) => {
 
 export const deleteCar = async (req, res) => {
 
-    const id = req.params.id;
-    const car = await Car.findByPk(id);
+    const car = await Car.findByPk(req.params.id);
     await car.destroy();
 
 } 
 
 export const createCar = async (req, res) => {
 
-   const chassisNumber = req.body.chassisNumber;
+  const chassisNumber = req.body.chassisNumber;
 
     if (await Car.findOne({ where: { chassisNumber: chassisNumber } })) {
         res.send({
@@ -44,11 +43,13 @@ export const createCar = async (req, res) => {
 
 export const updateCar = async (req, res) => {
 
+  try { 
     await Car.update(req.body, {
-        where: {
-          chassisNumber: req.body.chassisNumber
-        }
-      });
-
-} 
-
+    where: {
+      id: req.body.id
+    }})
+    res.json({message: 'Car is updated successfully', severity: 'success'});
+  } catch (error) {
+    res.json({message: error.message, severity: 'error'});
+  }
+}

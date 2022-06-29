@@ -16,44 +16,43 @@ const AllCars = () => {
   const title = 'All cars';
   const dialogTitle = 'Add new car';
   const dialogButtonText = 'Save new car';
-  const [cars, setCar] = useState([]);
-  const [newData, setNewData] = useState([]);
-  const [open, setOpen] = useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const initialNewData = { 
+    "Type of car": null,
+    "Chassis number": null,
+    "Currently rented to": null,
+    "Date of registration": null,
+    "Manufacturer": null,
+    "Model": null,
+    "Type of fuel": null,
+    "Year of production": null}
+
+  const [cars, setCars] = useState([]);
+  const [openForm, setOpenForm] = useState(false);
+  const [newData, setNewData] = useState(initialNewData);
 
   useEffect(() => {
-        getCars();
+    getCars();
   }, []);
- 
-  const getCars = async () => {
-      const carsFetch = await Service.getAllCars();
-      setCar(carsFetch.data);
-  }
 
+  const handleClose = () => setOpenForm(false);
   const retrieveNewData = (data) => setNewData(data);
 
+  const handleClickOpen = () => {
+    setOpenForm(true);
+    setNewData(initialNewData);
+  };
+ 
+  const getCars = async () => {
+    const carsFetch = await Service.getAllCars();
+    setCars(carsFetch.data);
+  }
+  
   const newCar = async () => {
     const revertedData = revertData(newData);
-    const addedCar = await Service.addNewCar(revertedData);
-    console.log(addedCar);
-}
-
-  const carFields = [
-    {"name":"Chassis number"},
-    {"name":"Manufacturer"},
-    {"name":"Model"},
-    {"name":"Year of production"},
-    {"name":"Currently rented to"},
-    {"name":"Type of car"},
-    {"name":"Type of fuel"},
-    {"name":"Date of registration"}];
+    await Service.addNewCar(revertedData);
+    handleClose();
+  }
 
   return (
     <>
@@ -84,14 +83,15 @@ const AllCars = () => {
       <BootstrapDialog
       onClose={handleClose}
       aria-labelledby="customized-dialog-title"
-      open={open}>
+      open={openForm}>
         <Form 
         retriever={retrieveNewData} 
         close={handleClose} 
         title={dialogTitle}
         action={newCar} 
         buttonText={dialogButtonText}
-        emptyData={carFields} />
+        initialData={initialNewData}
+       />
       </BootstrapDialog>
     </>
   );
