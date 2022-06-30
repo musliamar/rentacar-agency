@@ -13,18 +13,9 @@ import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
 import MuiAlert from '@mui/material/Alert';
 
-export const Alert = forwardRef((props, ref) =>
-  <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
+export const Alert = forwardRef((props, ref) => 
+<MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
   );
-
-/* export const Message = (props) => {
-
-  const { onClose, severity, message, sx, ...rest } = props;
-
-  <Alert onClose={onClose} severity={severity} sx={sx} {...rest}>
-  {message}
-  </Alert>
-} */
 
 export const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {

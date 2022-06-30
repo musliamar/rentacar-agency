@@ -12,13 +12,12 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import dataHelper from '../data.helper.js';
 import { revertData } from '../data.helper.js';
 import Service from '../http.js';
-import Message, { Alert } from './AddOrUpdateForm.js';
+import { Alert } from './AddOrUpdateForm.js';
 import Snackbar from '@mui/material/Snackbar';
-
 
 const CarsRows = (props) => {
 
-  const { data } = props;
+  const { refresh, data } = props;
   const { id, createdAt, updatedAt, ...fieldsData } = data;
 
   const reducedData = dataHelper(fieldsData);
@@ -47,7 +46,6 @@ const CarsRows = (props) => {
 
   const handleCloseForm = () => setOpenForm(false);
   const retrieveNewData = (props) => setNewData(props);
-  const deleteCar = async () => await Service.deleteCar(id);
 
   const handleOpenForm = () => {
     setOpenForm(true);
@@ -59,7 +57,13 @@ const CarsRows = (props) => {
     revertedData.id = id;
     const response = await Service.updateCar(revertedData);
     handleCloseForm();
+    refresh();
     openSnackbar(response);
+  };
+
+  const deleteCar = async () => {
+    const response = await Service.deleteCar(id);
+    refresh(response);
   };
 
   return (
@@ -110,17 +114,13 @@ const CarsRows = (props) => {
               buttonText={dialogButtonText}
               data={reducedData} 
               action={updateCar} />
-         
             </BootstrapDialog>
 
             <Snackbar open={alert.open} autoHideDuration={6000} onClose={handleCloseSnackbar}>
-
-            <Alert onClose={handleCloseSnackbar}  severity={alert.severity} sx={{ width: '100%' }}>
-            {alert.message}
-            </Alert>
-
+              <Alert onClose={handleCloseSnackbar} severity={alert.severity} sx={{ width: '100%' }}>
+                {alert.message}
+              </Alert>
             </Snackbar>
-            
           </>
   );
 

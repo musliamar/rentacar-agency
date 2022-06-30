@@ -10,6 +10,8 @@ import AddIcon from '@mui/icons-material/Add';
 import Stack from '@mui/material/Stack';
 import Form, { BootstrapDialog } from './AddOrUpdateForm.js';
 import { revertData } from '../data.helper.js';
+import { Alert } from './AddOrUpdateForm.js';
+import Snackbar from '@mui/material/Snackbar';
 
 const AllCars = () => {
 
@@ -35,23 +37,50 @@ const AllCars = () => {
     getCars();
   }, []);
 
-  const handleClose = () => setOpenForm(false);
+  const handleCloseForm = () => setOpenForm(false);
   const retrieveNewData = (data) => setNewData(data);
 
   const handleClickOpen = () => {
     setOpenForm(true);
     setNewData(initialNewData);
   };
+
+  const [alert, setAlert] = useState({
+    open: false,
+    message: null,
+    severity: null
+  });
+
+  const openSnackbar = (props) => setAlert({message: props.data.message, open: true, severity: props.data.severity});
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setAlert({open: false});
+  };
  
   const getCars = async () => {
     const carsFetch = await Service.getAllCars();
     setCars(carsFetch.data);
   }
+
+  const refresh = async (props) => {
+    getCars();
+    openSnackbar(props);
+  }
   
   const newCar = async () => {
     const revertedData = revertData(newData);
-    await Service.addNewCar(revertedData);
-    handleClose();
+    const response = await Service.addNewCar(revertedData);
+    if(response.data.severity ==='success'){
+      handleCloseForm();
+      openSnackbar(response);
+      getCars();
+    }else{
+      openSnackbar(response);
+    }
   }
 
   return (
@@ -76,23 +105,29 @@ const AllCars = () => {
       
       <Grid container item spacing={2}>  
         {cars.map((car) => (
-          <CarCard key={car.chassisNumber} data={car} />
+          <CarCard refresh={refresh} key={car.chassisNumber} data={car} />
         ))}
       </Grid>
 
       <BootstrapDialog
-      onClose={handleClose}
+      onClose={handleCloseForm}
       aria-labelledby="customized-dialog-title"
       open={openForm}>
         <Form 
         retriever={retrieveNewData} 
-        close={handleClose} 
+        close={handleCloseForm} 
         title={dialogTitle}
         action={newCar} 
         buttonText={dialogButtonText}
         initialData={initialNewData}
        />
       </BootstrapDialog>
+
+      <Snackbar open={alert.open} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+              <Alert onClose={handleCloseSnackbar} severity={alert.severity} sx={{ width: '100%' }}>
+                {alert.message}
+              </Alert>
+      </Snackbar>
     </>
   );
 }
